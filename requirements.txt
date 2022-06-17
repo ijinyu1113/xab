@@ -1,0 +1,6 @@
+efficientnet-pytorch==0.7.1
+Pillow==8.2.0
+torch==1.6.0+cu101
+torchaudio==0.8.0
+torchinfo==1.5.3
+torchvision==0.7.0+cu101
