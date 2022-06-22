@@ -16,8 +16,11 @@ with col1:
     # By default, uploaded files are limited to 200MB
     # You can configure this using the server.maxUploadSize config option
     uploaded_file = st.file_uploader("Supported file formats: DICOM, JPG, PNG")
-    with open('web.png', "rb") as f:
-        st.download_button('Sample image', f, file_name='web.png')
+    with open('0a1addecfc432a1b425d61fe57bc29d2.dicom', "rb") as f:
+        st.download_button('Sample DICOM image 1', f, file_name='0a1addecfc432a1b425d61fe57bc29d2.dicom')
+    with open('00a2145de1886cb9eb88869c85d74080.dicom', "rb") as f:
+        st.download_button('Sample DICOM image 2', f, file_name='00a2145de1886cb9eb88869c85d74080.dicom')
+
 
 if uploaded_file is not None:
     file_ext = uploaded_file.name.split(".")[-1]
