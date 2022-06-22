@@ -3,7 +3,7 @@ import streamlit as st
 from app import get_filetype, read_dicom, get_prediction
 from PIL import Image
 
-st.title('X-ab: Detecting Chest-Xray Abnormality')
+st.title('X-ab: Detecting Chest X-ray Abnormality')
 st.markdown('---')
 
 # layout
