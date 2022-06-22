@@ -16,7 +16,7 @@ with col1:
     # By default, uploaded files are limited to 200MB
     # You can configure this using the server.maxUploadSize config option
     uploaded_file = st.file_uploader("Supported file formats: DICOM, JPG, PNG")
-    st.download_button('Sample image', f, file_name='web.png')
+    st.download_button('Sample image', file_name='web.png')
 
 if uploaded_file is not None:
     file_ext = uploaded_file.name.split(".")[-1]
