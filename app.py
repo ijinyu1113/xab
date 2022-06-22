@@ -13,12 +13,11 @@ import numpy as np
 vinbig_class_index = {"0": "normal", "1": "abnormal"}
 device = torch.device("cpu")
 
-
 # load model
-model = MyEfficientNet(model_name="efficientnet-b5", out_features=1)  # 요청 시마다 model 불러오는 것 불필요하므로 전역 변수 설정
+model = MyEfficientNet(model_name="efficientnet-b5", out_features=1)
 
 # load weights
-checkpoint = "./checkpoints/exp_024/2022_0112_1822_ep14.pth"
+checkpoint = "./checkpoints/2022_0112_1822_ep14.pth"
 if os.path.isfile(checkpoint):
     state = torch.load(checkpoint, map_location=device)
     # state_dict의 key가 불일치하는 경우에 대한 보정
@@ -38,27 +37,21 @@ else:
 def transform_image(image_bytes):
     trans = Compose([Resize((456, 456)), ToTensor()])
     image = Image.open(io.BytesIO(image_bytes)).convert('RGB')  # 1 channel to 3 channel(RGB)
-
     return trans(image).unsqueeze(0)
 
 
 def get_prediction(image_bytes):
-
     tensor = transform_image(image_bytes=image_bytes)
     tensor = tensor.to(device)
     outputs = model.forward(tensor)
-    pred_score = torch.round(torch.sigmoid(outputs)*100).item()
+    # pred_score = str(round(torch.sigmoid(outputs).item(), 3))
     pred_idx = int(torch.round(torch.sigmoid(outputs)).item())
+    # return vinbig_class_index[str(pred_idx)] + '\n' + pred_score
     return vinbig_class_index[str(pred_idx)]
-    
-    #if pred_score < 50:
-    #    return vinbig_class_index[str(pred_idx)]
-    #else:
-    #    return vinbig_class_index[str(pred_idx)] + '\n' + str(pred_score) + '%'
 
 
-def read_dicom(filePath, f_type, voi_lut=True, fix_monochrome=True):
-    dicom = pydicom.read_file(filePath)
+def read_dicom(file, f_type, voi_lut=True, fix_monochrome=True):
+    dicom = pydicom.read_file(file)
 
     # VOI LUT is used to transformed raw DICOM data to human-friendly view
     if voi_lut:
@@ -81,7 +74,7 @@ def read_dicom(filePath, f_type, voi_lut=True, fix_monochrome=True):
         binary_pil = output.getvalue()
         return binary_pil
     else:
-        return img
+        return img  # f_type == PIL Image
 
 
 # 파일 확장자 label 획득
@@ -102,21 +95,21 @@ def get_filetype(file_ext):
     return file_type
 
 
-def analysis(filePath):
-    print(" analysis Call Start ====")
+def ai_analysis(filepath):
+    print(" Start Analysis ")
     try:
-        file = open(filePath, 'rb')
-        print("filepath : " + filePath)
-        _, file_ext = os.path.splitext(filePath)
+        file = open(filepath, 'rb')
+        print("filepath : " + filepath)
+        file_ext = os.path.splitext(filepath)[1]
         file_type = get_filetype(file_ext)  # 파일 타입(확장자) label
 
-        print(file_type)
         if file_type == "0":  # DICOM
-            img_bytes = read_dicom(file, f_type='bytes')
+            img_bytes = read_dicom(file, f_type='bytes')  # f_type: bytes or pil
         elif file_type == "1" or file_type == "2":  # JPG or PNG
             img_bytes = file.read()
         else:
-            return {'result': '1', 'msg': "Unsupported file type"}
+            return "[Error] Unsupported file type"
+
         class_name = get_prediction(image_bytes=img_bytes)
         return class_name
 
@@ -125,10 +118,12 @@ def analysis(filePath):
         return str(e)
 
 
-class ChestXrayAnalysis2():
-    filePath = "Cradle"
+class ChestXrayAnalysis:
+    def __init__(self):
+        self.result = ""
 
     def analysis(self, filepath):
-        result = analysis(filepath)
-        print(result)
-        return result
+        self.result = ai_analysis(filepath)
+        print(self.result)
+        return self.result
+

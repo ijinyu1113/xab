@@ -1,7 +1,5 @@
 # https://github.com/lukemelas/EfficientNet-PyTorch
 import torch.nn as nn
-# import sys
-# sys.path.append('/home/server5/Projects/CXR_NIH/venv/lib/python3.8/site-packages/efficientnet_pytorch')
 from efficientnet_pytorch import EfficientNet
 
 
