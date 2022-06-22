@@ -9,5 +9,6 @@ There are a few technical challenges in developing the prescreening model, which
 [Tan et al, 2019] EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks. ICML2019. https://arxiv.org/pdf/1905.11946.pdf
 
 [Lin et al, 2017] Focal Loss for Dense Object Detection. CVPR2017. https://arxiv.org/abs/1708.02002
+
 [Guo et al, 2017] On Calibration of Modern Neural Networks. ICML2017. https://arxiv.org/abs/1706.04599
 
