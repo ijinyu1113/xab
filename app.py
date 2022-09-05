@@ -10,7 +10,7 @@ import pydicom
 from pydicom.pixel_data_handlers.util import apply_voi_lut
 import numpy as np
 
-vinbig_class_index = {"0": "normal", "1": "abnormal"}
+vinbig_class_index = {0: "normal", 1: "abnormal"}
 device = torch.device("cpu")
 
 # load model
@@ -44,10 +44,9 @@ def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes)
     tensor = tensor.to(device)
     outputs = model.forward(tensor)
-    pred_score = str(round(torch.sigmoid(outputs).item(), 3))
-    pred_idx = int(torch.round(torch.sigmoid(outputs)).item())
-    return vinbig_class_index[str(pred_idx)] + ' \n (anomaly prob. ' + pred_score + ')'
-    # return vinbig_class_index[str(pred_idx)]
+    pred_score = torch.sigmoid(outputs).item()
+    probstr = '(' + str(round(pred_score,2)) + ')'
+    return vinbig_class_index[round(pred_score)] + probstr
 
 
 def read_dicom(file, f_type, voi_lut=True, fix_monochrome=True):
