@@ -46,7 +46,7 @@ def get_prediction(image_bytes):
     outputs = model.forward(tensor)
     pred_score = str(round(torch.sigmoid(outputs).item(), 3))
     pred_idx = int(torch.round(torch.sigmoid(outputs)).item())
-    return vinbig_class_index[str(pred_idx)] + ' (probability: ' + pred_score + ')'
+    return vinbig_class_index[str(pred_idx)] + ' \n (anomaly prob. ' + pred_score + ')'
     # return vinbig_class_index[str(pred_idx)]
 
 
