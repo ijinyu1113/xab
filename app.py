@@ -44,8 +44,7 @@ def get_prediction(image_bytes):
     tensor = transform_image(image_bytes=image_bytes)
     tensor = tensor.to(device)
     outputs = model.forward(tensor)
-    # pred_score = str(round(torch.sigmoid(outputs).item(), 3))
-    pred_score = str(round(outputs, 3))
+    pred_score = str(round(torch.sigmoid(outputs).item(), 3))
     pred_idx = int(torch.round(torch.sigmoid(outputs)).item())
     return vinbig_class_index[str(pred_idx)] + '\n' + pred_score
     # return vinbig_class_index[str(pred_idx)]
