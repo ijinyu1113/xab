@@ -21,7 +21,7 @@ with col1:
     with open('00a2145de1886cb9eb88869c85d74080.dicom', "rb") as f:
         st.download_button('Sample DICOM image 2', f, file_name='00a2145de1886cb9eb88869c85d74080.dicom')
     with open('0aa034371e578904c6789c08e4118733.dicom', "rb") as f:
-        st.download_button('Sample DICOM image 2', f, file_name='0aa034371e578904c6789c08e4118733.dicom')
+        st.download_button('Sample DICOM image 3', f, file_name='0aa034371e578904c6789c08e4118733.dicom')
 
 
 if uploaded_file is not None:
