@@ -8,3 +8,4 @@ pydicom~=2.2.2
 numpy~=1.19.5
 streamlit~=1.10.0
 pylibjpeg==1.4.0
+altair==4.2.0
